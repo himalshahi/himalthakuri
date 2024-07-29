@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #145bd5c2;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            padding: 20px;
+            height: 2000px;
+        }
+
+
+
+
+
+
+        /* Container */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Code Section */
+        .code-section {
+            flex: 1;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .code-section h2 {
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Login Section */
+        .login-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        /* Login Form */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .code-section,
+            .login-section {
+                width: 100%;
+                border-right: none;
+            }
+
+            .login-container {
+                border-radius: 0;
+            }
+        }
+
+
+
+
+
+
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Left Side: Code View */
+        .code-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-section h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        /* Right Side: Profile Card */
+        .profile-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .name {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 1em;
+            color: #777;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-link {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .social-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+
+
+
+
+        /* Container */
+        .container {
+            display: flex;
+            gap: 20px;
+            /* Space between the two sections */
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1200px;
+            /* Adjust as needed */
+            margin: auto;
+        }
+
+        /* Code Section */
+        .code-section {
+            flex: 1;
+            max-width: 100%;
+        }
+
+        .code-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background-color: #333;
+            color: #f4f4f4;
+            padding: 20px;
+            border-radius: 5px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            flex: 2;
+            display: flex;
+            gap: 20px;
+            /* Space between pricing cards */
+            flex-wrap: wrap;
+            /* Allow wrapping to the next line if needed */
+        }
+
+        .pricing-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 1 1 calc(33.333% - 20px);
+            /* 3 items per row with space between */
+            box-sizing: border-box;
+        }
+
+        .plan-title {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .price {
+            font-size: 2.5em;
+            color: #007bff;
+            margin: 10px 0;
+        }
+
+        .features {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .features li {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card {
+                flex: 1 1 100%;
+                /* Full width for each card on smaller screens */
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        .container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.code-section {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    border-right: 2px solid #ddd;
+}
+
+.code-section h2 {
+    margin-top: 0;
+}
+
+.code-section pre {
+
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.code-section code {
+    display: block;
+}
+
+.slider-section {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.slider {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+.slide img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.nav button {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.nav button:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+    .code-section, .slider-section {
+        width: 100%;
+        border-right: none;
+    }
+
+    .nav button {
+        padding: 8px;
+        font-size: 16px;
+    }
+}
+
+
+
+
+
+
+
+
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: #fff;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-links,
+        .footer-social {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links li,
+        .footer-social a {
+            margin: 0 15px;
+        }
+
+        .footer-links a,
+        .footer-social a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover,
+        .footer-social a:hover {
+            color: #1a23f2;
+        }
+
+        /* Footer Social Icons */
+        .footer-social {
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #1a23f2;
+        }
+
+        /* Footer Copy */
+        .footer-copy {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 3D Animation */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+            filter: blur(8px);
+            transform: translateZ(-1px);
+            z-index: 0;
+            animation: rotate-bg 30s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: translateZ(-1px) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateZ(-1px) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+    <div class="container">
+        <!-- Left Side: Code View -->
+        <div class="code-section">
+            <h2>Login Form Code</h2>
+            <pre><code>&lt;div class="login-container"&gt;
+        &lt;h2&gt;Login&lt;/h2&gt;
+        &lt;form class="login-form"&gt;
+          &lt;div class="form-group"&gt;
+            &lt;label for="username"&gt;Username:&lt;/label&gt;
+            &lt;input type="text" id="username" name="username" required&gt;
+          &lt;/div&gt;
+          &lt;div class="form-group"&gt;
+            &lt;label for="password"&gt;Password:&lt;/label&gt;
+            &lt;input type="password" id="password" name="password" required&gt;
+          &lt;/div&gt;
+          &lt;button type="submit"&gt;Login&lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;</code></pre>
+        </div>
+
+        <!-- Right Side: Login Form -->
+        <div class="login-section">
+            <div class="login-container">
+                <h2>Login</h2>
+                <form class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <hr>
+
+
+
+
+    <div class="container">
+        <!-- Left Side: Code View -->
+        <div class="code-section">
+            <h2>Profile Card Code</h2>
+            <pre><code>&lt;div class="profile-card"&gt;
+        &lt;img src="profile-picture.jpg" alt="Profile Picture" class="profile-picture"&gt;
+        &lt;h2 class="name"&gt;John Doe&lt;/h2&gt;
+        &lt;p class="title"&gt;Web Developer&lt;/p&gt;
+        &lt;div class="social-links"&gt;
+          &lt;a href="#" class="social-link"&gt;Twitter&lt;/a&gt;
+          &lt;a href="#" class="social-link"&gt;LinkedIn&lt;/a&gt;
+          &lt;a href="#" class="social-link"&gt;GitHub&lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;</code></pre>
+        </div>
+
+        <!-- Right Side: Profile Card -->
+        <div class="profile-section">
+            <div class="profile-card">
+                <img src="./assets/hi.jpeg" alt="Profile Picture" class="profile-picture">
+                <h2 class="name">Himal shahi Thakuri</h2>
+                <p class="title">Web Developer</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="#" class="social-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <hr>
+    <hr>
+
+
+
+
+
+
+
+
+
+    <div class="container">
+        <!-- Left Side: Code View -->
+        <div class="code-section">
+            <h2>Pricing Card Code</h2>
+            <pre><code>&lt;div class="pricing-container"&gt;
+      &lt;div class="pricing-card basic"&gt;
+        &lt;h2 class="plan-title"&gt;Basic&lt;/h2&gt;
+        &lt;p class="price"&gt;$19/month&lt;/p&gt;
+        &lt;ul class="features"&gt;
+          &lt;li&gt;1 Project&lt;/li&gt;
+          &lt;li&gt;10 GB Storage&lt;/li&gt;
+          &lt;li&gt;Email Support&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;a href="#" class="btn"&gt;Sign Up&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="pricing-card premium"&gt;
+        &lt;h2 class="plan-title"&gt;Premium&lt;/h2&gt;
+        &lt;p class="price"&gt;$49/month&lt;/p&gt;
+        &lt;ul class="features"&gt;
+          &lt;li&gt;5 Projects&lt;/li&gt;
+          &lt;li&gt;50 GB Storage&lt;/li&gt;
+          &lt;li&gt;Priority Support&lt;/li&gt;
+          &lt;li&gt;Custom Domain&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;a href="#" class="btn"&gt;Sign Up&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="pricing-card ultimate"&gt;
+        &lt;h2 class="plan-title"&gt;Ultimate&lt;/h2&gt;
+        &lt;p class="price"&gt;$99/month&lt;/p&gt;
+        &lt;ul class="features"&gt;
+          &lt;li&gt;Unlimited Projects&lt;/li&gt;
+          &lt;li&gt;100 GB Storage&lt;/li&gt;
+          &lt;li&gt;24/7 Support&lt;/li&gt;
+          &lt;li&gt;Custom Domain&lt;/li&gt;
+          &lt;li&gt;Advanced Analytics&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;a href="#" class="btn"&gt;Sign Up&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;</code></pre>
+        </div>
+
+
+        <!-- Pricing Section -->
+        <div class="pricing-section">
+            <div class="pricing-card basic">
+                <h3 class="plan-title">Basic</h3>
+                <p class="price">$19/month</p>
+                <ul class="features">
+                    <li>Feature 1</li>
+                    <li>Feature 2</li>
+                    <li>Feature 3</li>
+                </ul>
+                <a href="#" class="btn">Choose Plan</a>
+            </div>
+            <div class="pricing-card premium">
+                <h3 class="plan-title">Premium</h3>
+                <p class="price">$49/month</p>
+                <ul class="features">
+                    <li>Feature 1</li>
+                    <li>Feature 2</li>
+                    <li>Feature 3</li>
+                    <li>Feature 4</li>
+                </ul>
+                <a href="#" class="btn">Choose Plan</a>
+            </div>
+            <div class="pricing-card ultimate">
+                <h3 class="plan-title">Ultimate</h3>
+                <p class="price">$99/month</p>
+                <ul class="features">
+                    <li>Feature 1</li>
+                    <li>Feature 2</li>
+                    <li>Feature 3</li>
+                    <li>Feature 4</li>
+                    <li>Feature 5</li>
+                </ul>
+                <a href="#" class="btn">Choose Plan</a>
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+    <hr>
+
+
+
+
+
+    <div class="container">
+        <!-- Left Side: Code View -->
+        <div class="code-section">
+            <h2>Image Slider Code</h2>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;title&gt;Image Slider&lt;/title&gt;
+&lt;style&gt;
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .slider-container {
+        position: relative;
+        max-width: 800px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .slider {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slide {
+        display: none;
+    }
+
+    .slide img {
+        width: 100%;
+        height: auto;
+    }
+
+    .prev, .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover, .next:hover {
+        background-color: rgba(0,0,0,0.8);
+    }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="slider-container"&gt;
+    &lt;div class="slider"&gt;
+        &lt;div class="slide fade"&gt;
+            &lt;img src="image1.jpg" alt="Slide 1"&gt;
+        &lt;/div&gt;
+        &lt;div class="slide fade"&gt;
+            &lt;img src="image2.jpg" alt="Slide 2"&gt;
+        &lt;/div&gt;
+        &lt;div class="slide fade"&gt;
+            &lt;img src="image3.jpg" alt="Slide 3"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;a class="prev" onclick="plusSlides(-1)"&gt;&#10094;&lt;/a&gt;
+    &lt;a class="next" onclick="plusSlides(1)"&gt;&#10095;&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    let slideIndex = 0;
+    showSlides();
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("slide");
+        
+        if (n >= slides.length) {
+            slideIndex = 0;
+        }
+        
+        if (n &lt; 0) {
+            slideIndex = slides.length - 1;
+        }
+        
+        for (let i = 0; i &lt; slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        
+        slides[slideIndex].style.display = "block";
+    }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+
+        <div class="profile-section">
+            <div class="slider">
+                <div class="slide active">
+                    <img src="./assets/hi.jpeg" alt="Image 1">
+                </div>
+                <div class="slide">
+                    <img src="./assets/himal shahi thakuri.png" alt="Image 2">
+                </div>
+                <div class="slide">
+                    <img src="./assets/himal.jpeg" alt="Image 3">
+                </div>
+                <div class="navigation">
+                    <button class="prev">&lt;&lt;&lt;</button>
+                    <button class="next">&gt;&gt;&gt;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+            </div>
+            <ul class="footer-links">
+                <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a>
+                </li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+            </ul>
+            <div class="footer-social">
+
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr"
+                    class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelectorAll('.slide');
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+        showSlide(currentSlide);
+    }
+
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
+
+    // Initialize
+    showSlide(currentSlide);
+    setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #0a76d5b4;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            padding: 20px;
+            height: 2000px;
+        }
+
+
+
+
+
+
+
+
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .code-box {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .language {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .code {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-x: auto;
+        }
+
+        .copy-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+
+
+
+
+
+
+
+        #ball {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            cursor: pointer;
+        }
+        #win-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: green;
+            display: none;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: #fff;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-links,
+        .footer-social {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links li,
+        .footer-social a {
+            margin: 0 15px;
+        }
+
+        .footer-links a,
+        .footer-social a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover,
+        .footer-social a:hover {
+            color: #1a23f2;
+        }
+
+        /* Footer Social Icons */
+        .footer-social {
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #1a23f2;
+        }
+
+        /* Footer Copy */
+        .footer-copy {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 3D Animation */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+            filter: blur(8px);
+            transform: translateZ(-1px);
+            z-index: 0;
+            animation: rotate-bg 30s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: translateZ(-1px) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateZ(-1px) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <h1 class="title">Hello, World! in 30 Different Programming Languages</h1>
+        <p class="description">Below is the "Hello, World!" program written in 30 different programming languages. You
+            can copy the code by clicking the button below each box.</p>
+
+        <!-- Code boxes start -->
+        <div class="code-box">
+            <div class="language">1. Python</div>
+            <pre class="code">print("Hello, World!")</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">2. JavaScript</div>
+            <pre class="code">console.log("Hello, World!");</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">3. Java</div>
+            <pre class="code">public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">4. C</div>
+            <pre class="code">#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, World!");
+    return 0;
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">5. C++</div>
+            <pre class="code">#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hello, World!" &lt;&lt; std::endl;
+    return 0;
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">6. C#</div>
+            <pre class="code">using System;
+
+class Program {
+    static void Main() {
+        Console.WriteLine("Hello, World!");
+    }
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">7. Ruby</div>
+            <pre class="code">puts 'Hello, World!'</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">8. PHP</div>
+            <pre class="code">&lt;?php
+echo "Hello, World!";
+?></pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">9. Swift</div>
+            <pre class="code">print("Hello, World!")</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">10. Kotlin</div>
+            <pre class="code">fun main() {
+    println("Hello, World!")
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">11. Go</div>
+            <pre class="code">package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">12. Rust</div>
+            <pre class="code">fn main() {
+    println!("Hello, World!");
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">13. Dart</div>
+            <pre class="code">void main() {
+    print('Hello, World!');
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">14. TypeScript</div>
+            <pre class="code">console.log("Hello, World!");</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">15. Haskell</div>
+            <pre class="code">main = putStrLn "Hello, World!"</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">16. Perl</div>
+            <pre class="code">print "Hello, World!\n";</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">17. Scala</div>
+            <pre class="code">object HelloWorld {
+    def main(args: Array[String]) {
+        println("Hello, World!")
+    }
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">18. Shell</div>
+            <pre class="code">echo "Hello, World!"</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">19. R</div>
+            <pre class="code">cat("Hello, World!\n")</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">20. Lua</div>
+            <pre class="code">print("Hello, World!")</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">21. MATLAB</div>
+            <pre class="code">disp('Hello, World!')</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">22. SQL</div>
+            <pre class="code">SELECT 'Hello, World!';</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">23. VBA</div>
+            <pre class="code">Sub HelloWorld()
+    MsgBox "Hello, World!"
+End Sub</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">24. Pascal</div>
+            <pre class="code">program HelloWorld;
+begin
+    writeln('Hello, World!');
+end.</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">25. Groovy</div>
+            <pre class="code">println 'Hello, World!'</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">26. Fortran</div>
+            <pre class="code">program HelloWorld
+    print *, "Hello, World!"
+end program HelloWorld</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">27. COBOL</div>
+            <pre class="code">IDENTIFICATION DIVISION.
+PROGRAM-ID. HelloWorld.
+PROCEDURE DIVISION.
+DISPLAY 'Hello, World!'.
+STOP RUN.</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">28. Objective-C</div>
+            <pre class="code">#import &lt;Foundation/Foundation.h&gt;
+
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        NSLog(@"Hello, World!");
+    }
+    return 0;
+}</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">29. Julia</div>
+            <pre class="code">println("Hello, World!")</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <div class="code-box">
+            <div class="language">30. Ada</div>
+            <pre class="code">with Ada.Text_IO; use Ada.Text_IO;
+
+procedure HelloWorld is
+begin
+    Put_Line("Hello, World!");
+end HelloWorld;</pre>
+            <button class="copy-button" onclick="copyCode(this)">Copy</button>
+        </div>
+        <!-- Code boxes end -->
+    </div>
+
+
+
+
+
+
+
+    <div id="ball"></div>
+    <div id="win-message">You Win!</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+            </div>
+            <ul class="footer-links">
+                <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a>
+                </li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+            </ul>
+            <div class="footer-social">
+
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr"
+                    class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+
+
+        function copyCode(button) {
+            const codeBox = button.previousElementSibling;
+            const range = document.createRange();
+            range.selectNode(codeBox);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            alert("Code copied to clipboard!");
+        }
+
+
+
+
+        const ball = document.getElementById('ball');
+        const winMessage = document.getElementById('win-message');
+        let posX = 0;
+        let posY = 0;
+        let directionX = 1;
+        let directionY = 1;
+        const speed = 2;
+        let isMoving = true;
+
+        function animateBall() {
+            if (!isMoving) return;
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            posX += directionX * speed;
+            posY += directionY * speed;
+
+            if (posX + ball.offsetWidth >= width || posX <= 0) {
+                directionX *= -1;
+            }
+
+            if (posY + ball.offsetHeight >= height || posY <= 0) {
+                directionY *= -1;
+            }
+
+            ball.style.left = posX + 'px';
+            ball.style.top = posY + 'px';
+
+            requestAnimationFrame(animateBall);
+        }
+
+        ball.addEventListener('click', () => {
+            isMoving = false;
+            winMessage.style.display = 'block';
+        });
+
+        animateBall();
+
+
+
+    </script>
+</body>
+
+</html>

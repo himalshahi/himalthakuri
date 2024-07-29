@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #333;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            padding: 20px;
+            height: 2000px;
+        }
+
+
+
+
+
+
+
+
+
+        .intro-ai {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.intro-ai h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.intro-ai p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.ai-concepts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.concept {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+}
+
+.concept i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.concept h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.concept p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.why-ai, .ai-in-nepal {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.why-ai h2, .ai-in-nepal h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.why-ai ul, .ai-in-nepal ul {
+    list-style: none;
+    padding: 0;
+}
+
+.why-ai ul li, .ai-in-nepal ul li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.why-ai ul li i, .ai-in-nepal ul li i {
+    color: #007bff;
+    margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .concept {
+        width: 45%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .concept {
+        width: 22%;
+    }
+}
+
+
+
+
+
+.scope-it {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.scope-it h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.scope-it p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.it-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.point {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.point i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.point h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.point p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .point {
+        width: 45%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .point {
+        width: 30%;
+    }
+}
+
+
+
+
+.cloud-green-computing {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cloud-green-computing h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.cloud-computing, .green-computing {
+    margin-bottom: 40px;
+}
+
+.cloud-computing h2, .green-computing h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.cloud-computing p, .green-computing p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.cloud-points, .green-points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.point {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+}
+
+.point i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.point h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.point p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .point {
+        width: 45%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .point {
+        width: 22%;
+    }
+}
+
+
+
+
+
+
+.impacts {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.impacts h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.ai-impacts, .social-media-impact {
+    margin-bottom: 40px;
+}
+
+.ai-impacts h2, .social-media-impact h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.point {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    display: inline-block;
+}
+
+.point i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.point h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.point p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Responsive Design */
+
+/* Mobile-first styles */
+@media (max-width: 767px) {
+    .point {
+        width: 90%;
+    }
+
+    .ai-positive, .ai-negative, .social-positive, .social-negative {
+        margin-bottom: 20px;
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .point {
+        width: 45%;
+    }
+
+    .ai-positive, .ai-negative, .social-positive, .social-negative {
+        margin-bottom: 30px;
+    }
+}
+
+/* PC and up */
+@media (min-width: 1024px) {
+    .point {
+        width: 22%;
+    }
+
+    .ai-positive, .ai-negative, .social-positive, .social-negative {
+        margin-bottom: 40px;
+    }
+}
+
+
+
+
+.network-info {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.network-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.network-types, .cellular-networks, .communication-channels {
+    margin-bottom: 40px;
+}
+
+.network-types h2, .cellular-networks h2, .communication-channels h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.network, .cell-network, .channel {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    display: inline-block;
+}
+
+.network i, .cell-network i, .channel i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.network h3, .cell-network h3, .channel h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.network p, .cell-network p, .channel p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Responsive Design */
+
+/* Mobile-first styles */
+@media (max-width: 767px) {
+    .network, .cell-network, .channel {
+        width: 90%;
+    }
+
+    .network-types, .cellular-networks, .communication-channels {
+        margin-bottom: 20px;
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .network, .cell-network, .channel {
+        width: 45%;
+    }
+
+    .network-types, .cellular-networks, .communication-channels {
+        margin-bottom: 30px;
+    }
+}
+
+/* PC and up */
+@media (min-width: 1024px) {
+    .network, .cell-network, .channel {
+        width: 22%;
+    }
+
+    .network-types, .cellular-networks, .communication-channels {
+        margin-bottom: 40px;
+    }
+}
+
+
+.internet-evolution {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.internet-evolution h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.history, .current-state {
+    margin-bottom: 40px;
+}
+
+.history h2, .current-state h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.milestone, .current {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    display: inline-block;
+}
+
+.milestone i, .current i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.milestone h3, .current h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.milestone p, .current p {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Responsive Design */
+
+/* Mobile-first styles */
+@media (max-width: 767px) {
+    .milestone, .current {
+        width: 90%;
+    }
+
+    .history, .current-state {
+        margin-bottom: 20px;
+    }
+}
+
+/* Tablet and up */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .milestone, .current {
+        width: 45%;
+    }
+
+    .history, .current-state {
+        margin-bottom: 30px;
+    }
+}
+
+/* PC and up */
+@media (min-width: 1024px) {
+    .milestone, .current {
+        width: 22%;
+    }
+
+    .history, .current-state {
+        margin-bottom: 40px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #fff;
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-logo {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.footer-links, .footer-social {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-links li, .footer-social a {
+    margin: 0 15px;
+}
+
+.footer-links a, .footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: #1a23f2;
+}
+
+/* Footer Social Icons */
+.footer-social {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    font-size: 2rem;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+    color: #1a23f2;
+}
+
+/* Footer Copy */
+.footer-copy {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* 3D Animation */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    filter: blur(8px);
+    transform: translateZ(-1px);
+    z-index: 0;
+    animation: rotate-bg 30s linear infinite;
+}
+
+@keyframes rotate-bg {
+    0% {
+        transform: translateZ(-1px) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(-1px) rotateY(360deg);
+    }
+}
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+    <section class="intro-ai">
+        <h1>Introduction to Artificial Intelligence</h1>
+        <p>Artificial Intelligence (AI) is transforming the world in various fields. Here's a quick overview of some key concepts and its global impact:</p>
+        
+        <div class="ai-concepts">
+            <div class="concept">
+                <i class="fas fa-robot"></i>
+                <h2>Machine Learning</h2>
+                <p>Machine Learning is a subset of AI that involves training algorithms to make predictions or decisions based on data.</p>
+            </div>
+            <div class="concept">
+                <i class="fas fa-brain"></i>
+                <h2>Neural Networks</h2>
+                <p>Neural Networks are algorithms inspired by the human brain, used for pattern recognition and classification tasks.</p>
+            </div>
+            <div class="concept">
+                <i class="fas fa-search"></i>
+                <h2>Natural Language Processing</h2>
+                <p>Natural Language Processing (NLP) enables machines to understand and interpret human language.</p>
+            </div>
+            <div class="concept">
+                <i class="fas fa-chart-line"></i>
+                <h2>Data Analysis</h2>
+                <p>Data Analysis involves examining large datasets to uncover patterns, trends, and insights.</p>
+            </div>
+        </div>
+        
+        <section class="why-ai">
+            <h2>Why AI is Used Widely</h2>
+            <p>AI has become an integral part of various industries due to its ability to:</p>
+            <ul>
+                <li><i class="fas fa-cogs"></i> Automate repetitive tasks, increasing efficiency.</li>
+                <li><i class="fas fa-bolt"></i> Analyze large volumes of data quickly and accurately.</li>
+                <li><i class="fas fa-people-arrows"></i> Enhance user experiences through personalization.</li>
+                <li><i class="fas fa-chart-pie"></i> Drive innovations in fields such as healthcare, finance, and education.</li>
+            </ul>
+        </section>
+        
+        <section class="ai-in-nepal">
+            <h2>AI in Nepal</h2>
+            <p>In Nepal, AI is gaining traction and being utilized in various ways:</p>
+            <ul>
+                <li><i class="fas fa-briefcase"></i> <strong>Business:</strong> AI tools are helping local businesses optimize operations and customer service.</li>
+                <li><i class="fas fa-hospital"></i> <strong>Healthcare:</strong> AI is improving diagnostic accuracy and patient care through advanced technologies.</li>
+                <li><i class="fas fa-school"></i> <strong>Education:</strong> AI-based platforms are enhancing learning experiences and educational outcomes.</li>
+                <li><i class="fas fa-globe"></i> <strong>Government:</strong> AI is being explored for efficient governance and public services.</li>
+            </ul>
+        </section>
+    </section>
+
+
+
+    <section class="scope-it">
+        <h1>The Scope of IT in Nepal</h1>
+        <p>Information Technology (IT) is a rapidly growing field in Nepal, with significant opportunities and impacts across various sectors. Here are 10 key points illustrating the scope of IT in Nepal:</p>
+        <div class="it-points">
+            <div class="point">
+                <i class="fas fa-laptop-code"></i>
+                <h2>1. Growing IT Industry</h2>
+                <p>The IT industry in Nepal is expanding with numerous startups and established companies offering a range of services and products.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-globe"></i>
+                <h2>2. Global Outsourcing</h2>
+                <p>Nepal is becoming a popular destination for IT outsourcing due to its skilled workforce and competitive pricing.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-network-wired"></i>
+                <h2>3. Improved Connectivity</h2>
+                <p>Enhanced internet and network infrastructure are enabling better connectivity across urban and rural areas.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-mobile-alt"></i>
+                <h2>4. Mobile Technology</h2>
+                <p>Rapid growth in mobile technology and applications is transforming communication and services in Nepal.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-cloud"></i>
+                <h2>5. Cloud Computing</h2>
+                <p>Cloud computing is providing scalable and cost-effective solutions for businesses and organizations.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-cogs"></i>
+                <h2>6. IT Education</h2>
+                <p>Increased focus on IT education and training programs is producing a skilled workforce to meet industry demands.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-shield-alt"></i>
+                <h2>7. Cybersecurity</h2>
+                <p>With growing digitalization, there is a heightened focus on cybersecurity measures to protect data and systems.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-dollar-sign"></i>
+                <h2>8. Economic Growth</h2>
+                <p>The IT sector is contributing to economic growth by creating jobs and driving innovation in various industries.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-chart-line"></i>
+                <h2>9. Digital Transformation</h2>
+                <p>Businesses and government sectors are embracing digital transformation to enhance efficiency and service delivery.</p>
+            </div>
+            <div class="point">
+                <i class="fas fa-users"></i>
+                <h2>10. Community Impact</h2>
+                <p>IT initiatives are making a positive impact on local communities through various social and development projects.</p>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <section class="cloud-green-computing">
+        <h1>Cloud Computing and Green Computing</h1>
+        
+        <section class="cloud-computing">
+            <h2>Cloud Computing</h2>
+            <p>Cloud computing refers to the delivery of computing services—such as servers, storage, databases, networking, software, and more—over the internet ("the cloud"). It provides flexible resources, faster innovation, and economies of scale.</p>
+            <div class="cloud-points">
+                <div class="point">
+                    <i class="fas fa-server"></i>
+                    <h3>Scalability</h3>
+                    <p>Cloud services offer scalable resources to accommodate varying workloads and demands.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lock"></i>
+                    <h3>Security</h3>
+                    <p>Providers offer advanced security measures to protect data and applications.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Flexibility</h3>
+                    <p>Access a variety of services and resources tailored to specific needs.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>Cost-Efficiency</h3>
+                    <p>Pay-as-you-go pricing models reduce the need for large upfront investments.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="green-computing">
+            <h2>Green Computing</h2>
+            <p>Green computing refers to the practice of designing, manufacturing, using, and disposing of computers and related systems in an environmentally responsible manner. It aims to reduce the carbon footprint and environmental impact of computing.</p>
+            <div class="green-points">
+                <div class="point">
+                    <i class="fas fa-recycle"></i>
+                    <h3>Energy Efficiency</h3>
+                    <p>Optimizing energy consumption in computing devices and data centers.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Reducing Waste</h3>
+                    <p>Implementing recycling programs and sustainable disposal methods for electronic waste.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-sun"></i>
+                    <h3>Renewable Energy</h3>
+                    <p>Utilizing renewable energy sources to power data centers and computing facilities.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-plug"></i>
+                    <h3>Eco-Friendly Design</h3>
+                    <p>Designing hardware and software with environmental considerations in mind.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+
+
+
+
+
+    <section class="impacts">
+        <h1>Impacts of AI and Social Media in Nepali Society</h1>
+
+        <section class="ai-impacts">
+            <h2>Artificial Intelligence (AI) Impacts</h2>
+            
+            <div class="ai-positive">
+                <h3>Positive Impacts</h3>
+                <div class="point">
+                    <i class="fas fa-robot"></i>
+                    <h4>1. Enhanced Efficiency</h4>
+                    <p>AI automates repetitive tasks, leading to improved efficiency and productivity across various industries.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-stethoscope"></i>
+                    <h4>2. Advancements in Healthcare</h4>
+                    <p>AI supports diagnostic tools, personalized treatment plans, and medical research, improving healthcare outcomes.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-briefcase"></i>
+                    <h4>3. Business Innovation</h4>
+                    <p>AI enables businesses to gain insights from data, optimize operations, and enhance customer experiences.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-education"></i>
+                    <h4>4. Improved Education</h4>
+                    <p>AI tools offer personalized learning experiences and automate administrative tasks in educational institutions.</p>
+                </div>
+            </div>
+            
+            <div class="ai-negative">
+                <h3>Negative Impacts</h3>
+                <div class="point">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h4>1. Job Displacement</h4>
+                    <p>The automation of tasks can lead to job losses in certain sectors, requiring workforce reskilling.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lock"></i>
+                    <h4>2. Privacy Concerns</h4>
+                    <p>The use of AI in surveillance and data collection raises concerns about individual privacy and data security.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-bug"></i>
+                    <h4>3. Bias and Discrimination</h4>
+                    <p>AI systems can perpetuate existing biases if not properly managed, leading to unfair treatment in decision-making.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-cogs"></i>
+                    <h4>4. High Costs</h4>
+                    <p>Implementing advanced AI technologies can be expensive, creating barriers for smaller businesses and organizations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-media-impact">
+            <h2>Role of Social Media in Nepali Society</h2>
+            
+            <div class="social-positive">
+                <h3>Positive Impacts</h3>
+                <div class="point">
+                    <i class="fas fa-share-alt"></i>
+                    <h4>1. Increased Connectivity</h4>
+                    <p>Social media platforms help people stay connected with family, friends, and communities, bridging geographic distances.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-bullhorn"></i>
+                    <h4>2. Awareness and Advocacy</h4>
+                    <p>Social media raises awareness about social issues, facilitates advocacy efforts, and mobilizes community action.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-business-time"></i>
+                    <h4>3. Business Opportunities</h4>
+                    <p>Social media provides a platform for businesses to reach customers, promote products, and engage with audiences.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>4. Knowledge Sharing</h4>
+                    <p>Users can share knowledge, resources, and educational content, contributing to personal and professional growth.</p>
+                </div>
+            </div>
+            
+            <div class="social-negative">
+                <h3>Negative Impacts</h3>
+                <div class="point">
+                    <i class="fas fa-user-slash"></i>
+                    <h4>1. Cyberbullying</h4>
+                    <p>Social media can be a platform for cyberbullying, which negatively impacts mental health and well-being.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-frown"></i>
+                    <h4>2. Misinformation</h4>
+                    <p>The spread of misinformation and fake news can mislead the public and impact decision-making.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-time"></i>
+                    <h4>3. Time Consumption</h4>
+                    <p>Excessive use of social media can lead to time wastage and reduced productivity in personal and professional life.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-pen"></i>
+                    <h4>4. Privacy Issues</h4>
+                    <p>Social media platforms often collect personal data, raising concerns about user privacy and data protection.</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+
+
+
+    <section class="network-info">
+        <h1>Computer Networks and Cellular Networks</h1>
+        
+        <section class="network-types">
+            <h2>Types of Networks</h2>
+            
+            <div class="network">
+                <i class="fas fa-network-wired"></i>
+                <h3>1. Local Area Network (LAN)</h3>
+                <p>A LAN connects devices within a limited area such as a home, office, or campus, enabling resource sharing and communication.</p>
+            </div>
+            
+            <div class="network">
+                <i class="fas fa-network-wired"></i>
+                <h3>2. Wide Area Network (WAN)</h3>
+                <p>WAN spans a large geographic area, connecting multiple LANs, often through leased telecommunication lines or satellites.</p>
+            </div>
+            
+            <div class="network">
+                <i class="fas fa-network-wired"></i>
+                <h3>3. Metropolitan Area Network (MAN)</h3>
+                <p>A MAN covers a city or large campus, offering high-speed connectivity to a larger area than LAN but smaller than WAN.</p>
+            </div>
+            
+            <div class="network">
+                <i class="fas fa-network-wired"></i>
+                <h3>4. Personal Area Network (PAN)</h3>
+                <p>PAN is used for personal devices within a range of a few meters, such as connecting a smartphone to a laptop via Bluetooth.</p>
+            </div>
+        </section>
+        
+        <section class="cellular-networks">
+            <h2>Cellular Networks</h2>
+            
+            <div class="cell-network">
+                <i class="fas fa-signal"></i>
+                <h3>1. 2G (GSM)</h3>
+                <p>2G networks, introduced in the 1990s, offer digital voice and text services, with basic data services such as SMS and MMS.</p>
+            </div>
+            
+            <div class="cell-network">
+                <i class="fas fa-signal"></i>
+                <h3>2. 3G (UMTS)</h3>
+                <p>3G networks provide faster data transfer rates, enabling internet browsing, video calling, and mobile data applications.</p>
+            </div>
+            
+            <div class="cell-network">
+                <i class="fas fa-signal"></i>
+                <h3>3. 4G (LTE)</h3>
+                <p>4G networks offer high-speed internet access with improved performance for streaming, gaming, and high-definition video.</p>
+            </div>
+            
+            <div class="cell-network">
+                <i class="fas fa-signal"></i>
+                <h3>4. 5G</h3>
+                <p>5G provides ultra-fast data speeds, low latency, and supports a massive number of connected devices for advanced applications like IoT and autonomous vehicles.</p>
+            </div>
+        </section>
+        
+        <section class="communication-channels">
+            <h2>Communication Channels</h2>
+            
+            <div class="channel">
+                <i class="fas fa-broadcast-tower"></i>
+                <h3>1. Radio Waves</h3>
+                <p>Radio waves are used for wireless communication over various distances, including AM/FM radio, TV broadcasts, and wireless networks.</p>
+            </div>
+            
+            <div class="channel">
+                <i class="fas fa-broadcast-tower"></i>
+                <h3>2. Microwaves</h3>
+                <p>Microwaves are used for high-frequency communication such as satellite links, radar systems, and point-to-point wireless communication.</p>
+            </div>
+            
+            <div class="channel">
+                <i class="fas fa-broadcast-tower"></i>
+                <h3>3. Infrared</h3>
+                <p>Infrared communication is used for short-range, line-of-sight communication, such as remote controls and some wireless peripherals.</p>
+            </div>
+            
+            <div class="channel">
+                <i class="fas fa-broadcast-tower"></i>
+                <h3>4. Fiber Optics</h3>
+                <p>Fiber optics use light to transmit data over long distances with high bandwidth and minimal signal degradation.</p>
+            </div>
+        </section>
+    </section>
+
+
+
+
+    <section class="internet-evolution">
+        <h1>The Internet and Its Evolution</h1>
+
+        <section class="history">
+            <h2>History of the Internet</h2>
+            
+            <div class="milestone">
+                <i class="fas fa-calendar-day"></i>
+                <h3>1960s - Early Concepts</h3>
+                <p>Initial ideas about packet switching and networking emerged, laying the groundwork for the Internet.</p>
+            </div>
+            
+            <div class="milestone">
+                <i class="fas fa-calendar-day"></i>
+                <h3>1980s - ARPANET and TCP/IP</h3>
+                <p>ARPANET, the precursor to the Internet, implemented TCP/IP protocols, which became the foundation for global networking.</p>
+            </div>
+            
+            <div class="milestone">
+                <i class="fas fa-calendar-day"></i>
+                <h3>1990s - The World Wide Web</h3>
+                <p>Tim Berners-Lee invented the World Wide Web, making the Internet more accessible and user-friendly with web browsers and hyperlinks.</p>
+            </div>
+            
+            <div class="milestone">
+                <i class="fas fa-calendar-day"></i>
+                <h3>2000s - Broadband and Social Media</h3>
+                <p>The widespread adoption of broadband Internet and the rise of social media platforms transformed how people interact online.</p>
+            </div>
+            
+            <div class="milestone">
+                <i class="fas fa-calendar-day"></i>
+                <h3>2010s - Mobile Internet and Cloud Computing</h3>
+                <p>Smartphones and cloud computing became prevalent, enhancing connectivity and enabling a range of new services and applications.</p>
+            </div>
+        </section>
+        
+        <section class="current-state">
+            <h2>Current State of the Internet</h2>
+            
+            <div class="current">
+                <i class="fas fa-globe"></i>
+                <h3>Global Connectivity</h3>
+                <p>The Internet connects billions of devices worldwide, facilitating communication, commerce, and information sharing on a global scale.</p>
+            </div>
+            
+            <div class="current">
+                <i class="fas fa-cloud"></i>
+                <h3>Cloud Services</h3>
+                <p>Cloud computing provides scalable resources and services over the Internet, enabling businesses and individuals to store and manage data efficiently.</p>
+            </div>
+            
+            <div class="current">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile Internet</h3>
+                <p>Mobile Internet access has become ubiquitous, with smartphones and tablets providing constant connectivity and access to online services.</p>
+            </div>
+            
+            <div class="current">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Cybersecurity</h3>
+                <p>As Internet usage grows, cybersecurity measures are crucial to protect data and maintain privacy in an increasingly connected world.</p>
+            </div>
+        </section>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+        </div>
+        <ul class="footer-links">
+            <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+            <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a></li> 
+            <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+        </ul>
+        <div class="footer-social">
+           
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+
+</html>

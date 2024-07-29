@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #1612e96c;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            color: darkred;
+
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+      
+       
+
+        .container {
+    perspective: 1000px;
+    width: 100%;
+    height: 600px;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.slider-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.team-member-card {
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+    transition: transform 0.5s ease;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.member-icon {
+    font-size: 48px;
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+.team-member-card img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 25px;
+    border: 5px solid #3498db;
+}
+
+.team-member-card h2 {
+    margin: 0;
+    font-size: 2em;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.team-member-card p {
+    margin: 10px 0;
+    font-size: 1.2em;
+    color: #34495e;
+    text-align: center;
+}
+
+.member-social {
+    margin-top: 20px;
+}
+
+.member-social a {
+    color: #3498db;
+    font-size: 24px;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.member-social a:hover {
+    color: #2980b9;
+}
+
+.slider-nav {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 30px;
+}
+
+.slider-nav button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+}
+
+.slider-nav button:hover {
+    background-color: #2980b9;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        height: 500px;
+    }
+
+    .team-member-card {
+        width: 280px;
+        height: 400px;
+        padding: 20px;
+    }
+    
+    .team-member-card img {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .team-member-card h2 {
+        font-size: 1.5em;
+    }
+    
+    .team-member-card p {
+        font-size: 1em;
+    }
+
+    .member-social a {
+        font-size: 20px;
+    }
+
+    .slider-nav button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
+
+
+
+
+
+.team-section {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(45deg, #c0e40a, #e60838, #be1d8e, #771ace, #04d8f5, #06eb0e, #dd8d15ea);
+    background-size: 700% 700%;
+    animation: gradient 7s ease infinite;
+    color: #fff;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.team-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.team-member {
+    background: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.team-member img {
+    width: 100px;
+    height: 100px;
+    border-radius: 80%;
+    margin-bottom: 15px;
+}
+
+.team-member h3 {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+.team-member p {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #00aeff;
+    animation: colorChange 10s linear infinite;
+    font-weight: bold;
+}
+
+@keyframes colorChange {
+    0% { color: #00aeff; }
+    14% { color: #ff6f61; }
+    28% { color: #de4a6a; }
+    42% { color: #f5c52f; }
+    57% { color: #34d399; }
+    71% { color: #9333ea; }
+    85% { color: #ff9f00; }
+    100% { color: #09f101; }
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: #333;
+    margin: 0 5px;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
+
+.social-icons a.linkedin:hover {
+    color: #0073b1;
+}
+
+.social-icons a.twitter:hover {
+    color: #1da1f2;
+}
+
+.social-icons a.instagram:hover {
+    color: #e4405f;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .team-section h1 {
+        font-size: 2em;
+    }
+
+    .team-member {
+        width: 150px;
+        padding: 15px;
+    }
+
+    .team-member img {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-section {
+        padding: 30px 10px;
+    }
+
+    .team-member {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+    }
+
+    .team-member img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .team-section h1 {
+        font-size: 1.5em;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #fff;
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-logo {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.footer-links, .footer-social {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-links li, .footer-social a {
+    margin: 0 15px;
+}
+
+.footer-links a, .footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: #1a23f2;
+}
+
+/* Footer Social Icons */
+.footer-social {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    font-size: 2rem;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+    color: #1a23f2;
+}
+
+/* Footer Copy */
+.footer-copy {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* 3D Animation */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    filter: blur(8px);
+    transform: translateZ(-1px);
+    z-index: 0;
+    animation: rotate-bg 30s linear infinite;
+}
+
+@keyframes rotate-bg {
+    0% {
+        transform: translateZ(-1px) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(-1px) rotateY(360deg);
+    }
+}
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+
+
+  <div class="team-section">
+        <h1>PROFILE</h1>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="./assets/hi.jpeg" alt="Member 1">
+                <h3>Himal Shahi Thakuri</h3>
+                <p>Python develpoer</p>
+                <div class="social-icons">
+                    <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="./assets/ssssss.jpg" alt="Member 3">
+                <h3>Shaswot Adhikari</h3>
+                <p> Enginnering</p>
+                <div class="social-icons">
+                   
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="./assets/samin.jpg" alt="Member 4">
+                <h3>Samin Thapa ksherty</h3>
+                <p>Frotend-Developer</p>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/samin-thapa-kshetry-96043425b/" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                   
+                    <a href="https://www.instagram.com/im_saminthapa/" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="./assets/surendra giri.jpg" alt="Member 5">
+                <h3>Surendra Giri</h3>
+                <p>Life Insurance Expert</p>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/surendragiri14?igsh=aWdvNHZmaTc4ZGNi&utm_source=qr" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="./assets/nirjan.jpg" alt="Member 5">
+                <h3>Neerajan Subedi</h3>
+                <p>Data Science</p>
+                <div class="social-icons">
+                    <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+        </div>
+        <ul class="footer-links">
+            <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+            <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a></li> 
+            <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+        </ul>
+        <div class="footer-social">
+           
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+       
+
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

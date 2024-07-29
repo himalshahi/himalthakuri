@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #13cbe7;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+                color: #ff00ff;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            padding: 20px;
+            height: 2000px;
+        }
+
+
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+        }
+
+        td i {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            .table-wrapper {
+                margin: 0 -15px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            table {
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+
+            td i {
+                font-size: 1em;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: #fff;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-links,
+        .footer-social {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links li,
+        .footer-social a {
+            margin: 0 15px;
+        }
+
+        .footer-links a,
+        .footer-social a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover,
+        .footer-social a:hover {
+            color: #1a23f2;
+        }
+
+        /* Footer Social Icons */
+        .footer-social {
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #1a23f2;
+        }
+
+        /* Footer Copy */
+        .footer-copy {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 3D Animation */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+            filter: blur(8px);
+            transform: translateZ(-1px);
+            z-index: 0;
+            animation: rotate-bg 30s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: translateZ(-1px) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateZ(-1px) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <h1>GTA V Cheat Sheet</h1>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Topic</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><i class="fas fa-car"></i></td>
+                        <td>Vehicle Spawn</td>
+                        <td>Spawn vehicles using cheats or commands.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-gun"></i></td>
+                        <td>Weapon Cheats</td>
+                        <td>Get all weapons with a single command.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-users"></i></td>
+                        <td>Invincibility</td>
+                        <td>Activate invincibility for your character.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-money-bill"></i></td>
+                        <td>Money Cheats</td>
+                        <td>Get a large amount of in-game money.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-sun"></i></td>
+                        <td>Weather Changes</td>
+                        <td>Change the weather in the game.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-clock"></i></td>
+                        <td>Time Control</td>
+                        <td>Control the time of day in the game.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-plane"></i></td>
+                        <td>Aircraft Spawn</td>
+                        <td>Spawn aircrafts using cheats or commands.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-tachometer-alt"></i></td>
+                        <td>Speed Boost</td>
+                        <td>Increase the speed of your vehicle.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-skull-crossbones"></i></td>
+                        <td>Health Cheats</td>
+                        <td>Instantly heal your character.</td>
+                    </tr>
+                    <tr>
+                        <td><i class="fas fa-map"></i></td>
+                        <td>Teleportation</td>
+                        <td>Teleport your character to different locations.</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr>
+    <hr>
+
+    <div class="container">
+        <h1>Excel Cheat Sheet</h1>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Topic</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-table"></i></td>
+                        <td data-label="Topic">Basic Table</td>
+                        <td data-label="Description">Create a table to organize data efficiently.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-sort-numeric-up"></i></td>
+                        <td data-label="Topic">Sorting</td>
+                        <td data-label="Description">Sort data in ascending or descending order.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-filter"></i></td>
+                        <td data-label="Topic">Filtering</td>
+                        <td data-label="Description">Filter data to display only relevant information.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-calculator"></i></td>
+                        <td data-label="Topic">Formulas</td>
+                        <td data-label="Description">Use formulas to perform calculations on your data.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-chart-line"></i></td>
+                        <td data-label="Topic">Charts</td>
+                        <td data-label="Description">Create charts to visualize data trends.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-dollar-sign"></i></td>
+                        <td data-label="Topic">Currency Formatting</td>
+                        <td data-label="Description">Format cells to display currency values.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-calendar-day"></i></td>
+                        <td data-label="Topic">Date Formatting</td>
+                        <td data-label="Description">Format cells to display dates in various formats.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-signal"></i></td>
+                        <td data-label="Topic">Conditional Formatting</td>
+                        <td data-label="Description">Apply formatting based on cell values.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-lock"></i></td>
+                        <td data-label="Topic">Cell Protection</td>
+                        <td data-label="Description">Protect cells to prevent accidental changes.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-print"></i></td>
+                        <td data-label="Topic">Printing</td>
+                        <td data-label="Description">Print your spreadsheet or selected data.</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr>
+    <hr>
+
+
+    <div class="container">
+        <h1>Niche Research and Market Analysis</h1>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Details</th>
+                        <th>Insights</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Aspect">Market Size</td>
+                        <td data-label="Details">Estimate the total market size for the niche.</td>
+                        <td data-label="Insights">Understanding the market size helps gauge potential growth and
+                            investment requirements.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Target Audience</td>
+                        <td data-label="Details">Identify demographics, interests, and behaviors of the target audience.
+                        </td>
+                        <td data-label="Insights">Helps tailor marketing strategies and product development to meet the
+                            needs of the audience.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Competitors</td>
+                        <td data-label="Details">Analyze key competitors and their market share.</td>
+                        <td data-label="Insights">Provides insights into market saturation and opportunities for
+                            differentiation.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Trends</td>
+                        <td data-label="Details">Examine current trends and future projections in the niche.</td>
+                        <td data-label="Insights">Helps identify emerging opportunities and potential challenges.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Customer Needs</td>
+                        <td data-label="Details">Understand the specific needs and pain points of the target audience.
+                        </td>
+                        <td data-label="Insights">Guides product development and customer satisfaction strategies.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Pricing</td>
+                        <td data-label="Details">Analyze pricing strategies of competitors and market expectations.</td>
+                        <td data-label="Insights">Helps set competitive prices and identify pricing gaps.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Marketing Channels</td>
+                        <td data-label="Details">Determine the most effective marketing channels for reaching the target
+                            audience.</td>
+                        <td data-label="Insights">Optimizes marketing efforts and resource allocation.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Regulations</td>
+                        <td data-label="Details">Identify any regulatory or legal considerations specific to the niche.
+                        </td>
+                        <td data-label="Insights">Ensures compliance and avoids potential legal issues.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">Revenue Streams</td>
+                        <td data-label="Details">Explore potential revenue streams and business models.</td>
+                        <td data-label="Insights">Provides a framework for financial planning and growth strategies.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="Aspect">SWOT Analysis</td>
+                        <td data-label="Details">Conduct a SWOT analysis (Strengths, Weaknesses, Opportunities,
+                            Threats).</td>
+                        <td data-label="Insights">Gives a comprehensive view of the niche’s strategic position.</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <hr>
+    <hr>
+
+   
+    <div class="container">
+        <h1>Leadership Skills</h1>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Icon</th>
+                        <th>Skill</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-bullhorn"></i></td>
+                        <td data-label="Skill">Communication</td>
+                        <td data-label="Description">Effectively convey ideas and information to others.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-users"></i></td>
+                        <td data-label="Skill">Team Building</td>
+                        <td data-label="Description">Foster a collaborative and supportive team environment.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-lightbulb"></i></td>
+                        <td data-label="Skill">Vision</td>
+                        <td data-label="Description">Develop and communicate a clear and compelling vision.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-cogs"></i></td>
+                        <td data-label="Skill">Problem-Solving</td>
+                        <td data-label="Description">Identify solutions to challenges and obstacles.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-tachometer-alt"></i></td>
+                        <td data-label="Skill">Decision Making</td>
+                        <td data-label="Description">Make informed and effective decisions promptly.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-handshake"></i></td>
+                        <td data-label="Skill">Negotiation</td>
+                        <td data-label="Description">Reach mutually beneficial agreements with others.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-star"></i></td>
+                        <td data-label="Skill">Motivation</td>
+                        <td data-label="Description">Inspire and encourage others to achieve their best.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-chart-line"></i></td>
+                        <td data-label="Skill">Strategic Thinking</td>
+                        <td data-label="Description">Plan and execute strategies to achieve long-term goals.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-calendar-check"></i></td>
+                        <td data-label="Skill">Time Management</td>
+                        <td data-label="Description">Efficiently manage time and prioritize tasks.</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icon"><i class="fas fa-globe"></i></td>
+                        <td data-label="Skill">Adaptability</td>
+                        <td data-label="Description">Adjust to changing conditions and environments.</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+            </div>
+            <ul class="footer-links">
+                <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a>
+                </li>
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+            </ul>
+            <div class="footer-social">
+
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr"
+                    class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+
+</html>

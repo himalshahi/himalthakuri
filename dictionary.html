@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Animated Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #0e42d1b1;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+
+
+
+
+    
+
+        .container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 120000000000000000000px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+#word-input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+}
+
+#search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#result {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 18px;
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    #word-input, #search-btn {
+        font-size: 14px;
+    }
+
+    #result {
+        font-size: 16px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #fff;
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-logo {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.footer-links, .footer-social {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-links li, .footer-social a {
+    margin: 0 15px;
+}
+
+.footer-links a, .footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: #1a23f2;
+}
+
+/* Footer Social Icons */
+.footer-social {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    font-size: 2rem;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+    color: #1a23f2;
+}
+
+/* Footer Copy */
+.footer-copy {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* 3D Animation */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    filter: blur(8px);
+    transform: translateZ(-1px);
+    z-index: 0;
+    animation: rotate-bg 30s linear infinite;
+}
+
+@keyframes rotate-bg {
+    0% {
+        transform: translateZ(-1px) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(-1px) rotateY(360deg);
+    }
+}
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+   
+
+
+
+
+
+
+
+    <div class="container">
+        <h1>Dictionary</h1>
+        <div class="search-box">
+            <input type="text" id="word-input" placeholder="Enter a word">
+            <button id="search-btn">Search</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+        </div>
+        <ul class="footer-links">
+            <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+            <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a></li> 
+            <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+        </ul>
+        <div class="footer-social">
+           
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const wordInput = document.getElementById('word-input');
+    const searchBtn = document.getElementById('search-btn');
+    const result = document.getElementById('result');
+
+    const dictionary = {
+    "hello": "Used as a greeting or to begin a conversation.",
+    "world": "The earth, together with all of its countries and peoples.",
+    "dictionary": "A book or electronic resource that lists the words of a language and gives their meaning.",
+    "apple": "The round fruit of a tree of the rose family.",
+    "ball": "A spherical object used in various games and sports.",
+    "cat": "A small domesticated carnivorous mammal with soft fur.",
+    "dog": "A domesticated carnivorous mammal with a barking sound.",
+    "elephant": "A large mammal with a trunk and tusks.",
+    "fish": "A limbless cold-blooded vertebrate animal with gills and fins living wholly in water.",
+    "giraffe": "A large African mammal with a very long neck and forelegs.",
+    "hat": "A shaped covering for the head worn for warmth, fashion, or protection.",
+    "igloo": "A type of dome-shaped shelter built from blocks of solid snow.",
+    "jacket": "An outer garment extending either to the waist or the hips.",
+    "kite": "A toy consisting of a light frame with thin material stretched over it, flown in the wind at the end of a long string.",
+    "lion": "A large tawny-colored cat that lives in prides, found in Africa and northwestern India.",
+    "mountain": "A large natural elevation of the earth's surface rising abruptly from the surrounding level.",
+    "notebook": "A small book with blank or ruled pages for writing notes.",
+    "octopus": "A sea animal with a soft body and eight long arms.",
+    "piano": "A large keyboard musical instrument with a wooden case enclosing a soundboard and metal strings.",
+    "quilt": "A warm bed covering made of padding enclosed between layers of fabric and kept in place by lines of stitching.",
+    "rabbit": "A burrowing, plant-eating mammal with long ears, long hind legs, and a short tail.",
+    "sun": "The star around which the earth orbits.",
+    "tree": "A perennial plant with an elongated stem or trunk, supporting branches and leaves.",
+    "umbrella": "A device consisting of a circular canopy of cloth on a folding metal frame supported by a central rod, used as protection against rain or sun.",
+    "violin": "A stringed musical instrument of treble pitch, played with a horsehair bow.",
+    "water": "A colorless, transparent, odorless liquid that forms the seas, lakes, rivers, and rain.",
+    "xylophone": "A musical instrument played by striking a row of wooden bars of graduated length with one or more small wooden or plastic beaters.",
+    "yacht": "A medium-sized sailboat equipped for cruising or racing.",
+    "zebra": "An African wild horse with black-and-white stripes and an erect mane.",
+    "baby": "A very young child, especially one newly or recently born.",
+    "car": "A road vehicle, typically with four wheels, powered by an internal combustion engine and able to carry a small number of people.",
+    "desk": "A piece of furniture with a flat or sloped surface for writing and with drawers and compartments for storing writing materials.",
+    "ear": "The organ of hearing and balance in humans and other vertebrates, especially the external part of this.",
+    "flag": "A piece of cloth or similar material, typically oblong or square, attachable by one edge to a pole or rope and used as the symbol or emblem of a country or institution.",
+    "game": "A form of play or sport, especially a competitive one played according to rules and decided by skill, strength, or luck.",
+    "home": "The place where one lives permanently, especially as a member of a family or household.",
+    "ice": "Frozen water, a brittle, transparent crystalline solid.",
+    "juice": "The liquid that comes from fruit or vegetables.",
+    "key": "A small piece of shaped metal with incisions cut to fit the wards of a particular lock and which is inserted into a lock and turned to open or close it.",
+    "lamp": "A device for giving light, especially one that has a covering or is contained within something.",
+    "moon": "The natural satellite of the earth, visible (chiefly at night) by reflected light from the sun.",
+    "night": "The period of darkness in each twenty-four hours; the time from sunset to sunrise.",
+    "orange": "A round juicy citrus fruit with a tough bright reddish-yellow rind.",
+    "pencil": "An instrument for writing or drawing, consisting of a thin stick of graphite or a similar substance enclosed in a long thin piece of wood or held in a metal or plastic case.",
+    "queen": "The female ruler of an independent state, especially one who inherits the position by right of birth.",
+    "river": "A large natural stream of water flowing in a channel to the sea, a lake, or another such stream.",
+    "sand": "A loose granular substance, typically pale yellowish brown, resulting from the erosion of siliceous and other rocks and forming a major constituent of beaches, riverbeds, the seabed, and deserts.",
+    "telephone": "A system for transmitting voices over a distance using wire or radio, by converting acoustic vibrations to electrical signals.",
+    "uncle": "The brother of one's father or mother or the husband of one's aunt.",
+    "vase": "A decorative container, typically made of glass or china and used as an ornament or for displaying cut flowers.",
+    "window": "An opening in the wall or roof of a building or vehicle that is fitted with glass in a frame to admit light or air and allow people to see out.",
+    "yard": "A piece of ground adjoining a building or house.",
+    "zoo": "An establishment that maintains a collection of wild animals, typically in a park or gardens, for study, conservation, or display to the public.",
+    "album": "A collection of recordings issued as a single item on CD, record, or another medium.",
+    "bicycle": "A vehicle composed of two wheels held in a frame one behind the other, propelled by pedals and steered with handlebars attached to the front wheel.",
+    "candle": "A cylinder or block of wax or tallow with a central wick which is lit to produce light as it burns.",
+    "donut": "A small fried cake of sweetened dough, typically in the shape of a ball or ring.",
+    "engine": "A machine with moving parts that converts power into motion.",
+    "flower": "The seed-bearing part of a plant, consisting of reproductive organs typically surrounded by a brightly colored corolla and a green calyx.",
+    "guitar": "A stringed musical instrument, typically with a fretted fingerboard, played by plucking or strumming the strings.",
+    "horse": "A large plant-eating domesticated mammal with solid hoofs and a flowing mane and tail, used for riding, racing, and to carry and pull loads.",
+    "island": "A piece of land surrounded by water.",
+    "jewel": "A precious stone, typically a single crystal or piece of a hard lustrous or translucent mineral, or an item of jewelry containing such a stone.",
+    "kangaroo": "A large plant-eating marsupial with a long powerful tail and strong back legs, native to Australia.",
+    "lemon": "A yellow, oval citrus fruit with thick skin and fragrant, acidic juice.",
+    "mountain": "A large natural elevation of the earth's surface rising abruptly from the surrounding level.",
+    "nest": "A structure or place made or chosen by a bird for laying eggs and sheltering its young.",
+    "ocean": "A very large expanse of sea.",
+    "pyramid": "A monumental structure with a square or triangular base and sloping sides that meet in a point at the top, especially one built of stone as a royal tomb in ancient Egypt.",
+    "quartz": "A hard mineral consisting of silica, found widely in igneous and metamorphic rocks.",
+    "robot": "A machine capable of carrying out a complex series of actions automatically, especially one programmable by a computer.",
+    "socks": "A garment for the foot and lower part of the leg, typically knitted from wool, cotton, or nylon.",
+    "tiger": "A large wild cat with a yellow-brown coat striped with black, native to the forests of Asia but becoming increasingly rare.",
+    "umbrella": "A device consisting of a circular canopy of cloth on a folding metal frame supported by a central rod, used as protection against rain or sun.",
+    "violin": "A stringed musical instrument of treble pitch, played with a horsehair bow.",
+    "whale": "A very large marine mammal with a streamlined hairless body, a horizontal tail fin, and a blowhole on top of the head for breathing.",
+    "xylophone": "A musical instrument played by striking a row of wooden bars of graduated length with one or more small wooden or plastic beaters.",
+    "yarn": "Spun thread used for knitting, weaving, or sewing.",
+    "zebra": "An African wild horse with black-and-white stripes and an erect mane."
+};
+
+
+    searchBtn.addEventListener('click', function() {
+        const word = wordInput.value.toLowerCase().trim();
+        
+        if (word === '') {
+            result.textContent = "Please enter a word to search.";
+        } else if (dictionary[word]) {
+            result.textContent = word + ": " + dictionary[word];
+        } else {
+            result.textContent = "Word not found in the dictionary.";
+        }
+    });
+
+    wordInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            searchBtn.click();
+        }
+    });
+
+    // Test to see if the script is running
+    console.log("Dictionary script loaded");
+});
+
+
+
+
+
+    </script>
+</body>
+
+</html>

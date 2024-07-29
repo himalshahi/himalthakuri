@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="./assets/IMG_6681.jpeg" type="image/x-icon"
+        style="width: 10px;height: 10px; border: radius 100%;">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,400&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #4d96d7;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            color: darkred;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .content {
+            display: flex;
+            padding: 50px;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #0f0f1f, #1f1f3f);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        .text-content {
+            flex: 1;
+            padding-right: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .text-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .text-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: rgb(255, 255, 255);
+
+        }
+
+        /* Define the keyframes for the flash effect */
+        @keyframes flash {
+            0% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+
+            15% {
+                box-shadow: 0 0 20px rgba(83, 31, 162, 0.8);
+                /* Bright flash effect */
+            }
+
+            30% {
+                box-shadow: 0 0 20px rgba(21, 236, 189, 0.8);
+                /* Bright flash effect */
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+                /* Bright flash effect */
+            }
+
+            65% {
+                box-shadow: 0 0 20px rgba(31, 166, 234, 0.8);
+                /* Bright flash effect */
+            }
+
+            75% {
+                box-shadow: 0 0 20px rgba(255, 3, 3, 0.8);
+                /* Bright flash effect */
+            }
+
+            100% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* Define the keyframes for the stomp effect */
+        @keyframes stomp {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .cta-button {
+            background-color: #009999;
+            /* Initial background color */
+            color: #ffffff;
+            /* Text color */
+            border: none;
+            /* Border style */
+            padding: 8px 16px;
+            /* Reduced padding */
+            font-size: 14px;
+            /* Smaller font size */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* Initial box shadow */
+            transition: background-color 0.1s ease, transform 0.2s ease;
+            /* Smooth transition effect for background color and transform */
+            text-align: center;
+            border-radius: 6px;
+            /* Slightly smaller border-radius */
+        }
+
+        /* Apply the flash and stomp animations on hover */
+        .cta-button:hover {
+            background-color: #00cccc;
+            /* Background color on hover */
+            animation: flash 0.2s ease-in-out, stomp 0.2s ease-in-out;
+            /* Trigger both flash and stomp animations */
+        }
+
+        /* Style for the box container */
+        .box-container {
+            display: flex;
+            justify-content: center;
+            /* Center the button horizontally */
+            align-items: center;
+            /* Center the button vertically */
+            width: 80px;
+            /* Adjust the width of the box */
+            height: 100px;
+            /* Adjust the height of the box */
+            padding: 10px;
+            /* Padding inside the box */
+            border: 2px solid #009999;
+            /* Border color and width */
+            border-radius: 2px;
+            /* Rounded corners for the box */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            /* Shadow for the box */
+            background-color: #f0f0f0;
+            /* Background color of the box */
+            margin: auto;
+            /* Center the box horizontally within its container */
+        }
+
+        .image-gallery {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover .image-text {
+            transform: translateY(0);
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            .text-content {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .content {
+            display: flex;
+            padding: 50px;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1E90FF, #C0C0C0, rgb(35, 196, 153), rgb(53, 227, 227), rgb(233, 67, 100));
+            /* Blue and Silver */
+            background-size: 400% 400%;
+            animation: gradientAnimation 2s ease infinite;
+        }
+
+
+
+
+
+        /* General styles */
+
+        /* Box section styling */
+        .box-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(45deg,
+                    #1E90FF,
+                    /* Dodger Blue */
+                    #C0C0C0,
+                    /* Silver */
+                    rgb(35, 196, 153),
+                    /* Turquoise */
+                    rgb(53, 227, 227),
+                    /* Light Turquoise */
+                    rgb(233, 67, 100),
+                    /* Red */
+                    #FFB6C1,
+                    /* Light Pink */
+                    #8A2BE2,
+                    /* Blue Violet */
+                    #FF6347
+                    /* Tomato */
+                );
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+            text-align: center;
+            /* Center text within section */
+        }
+
+        .box-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* Individual box styling */
+        .box {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .box-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .box-text {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            transition: color 0.3s ease;
+        }
+
+        .box:hover .box-img {
+            opacity: 0.7;
+        }
+
+        /* Skill level indicator */
+        .skill-level {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            /* Hidden by default */
+        }
+
+        .skill-level .circle {
+            transform: rotate(-90deg);
+        }
+
+        .skill-level .circle .background {
+            fill: none;
+            stroke: #e6e6e6;
+            stroke-width: 10;
+        }
+
+        .skill-level .circle .progress {
+            fill: none;
+            stroke: #4caf50;
+            stroke-width: 10;
+            stroke-dasharray: 282.6;
+            /* Circumference of the circle (2 * PI * radius) */
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .skill-level .percentage {
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Show skill level on hover */
+        .box:hover .skill-level {
+            visibility: visible;
+        }
+
+        /* Animation for gradient */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .box {
+                width: 150px;
+                height: 150px;
+            }
+
+            .box-text {
+                font-size: 14px;
+            }
+
+            .skill-level {
+                width: 80px;
+                height: 80px;
+            }
+
+            .skill-level .percentage {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .box {
+                width: 120px;
+                height: 120px;
+            }
+
+            .box-text {
+                font-size: 12px;
+            }
+
+            .skill-level {
+                width: 60px;
+                height: 60px;
+            }
+
+            .skill-level .percentage {
+                font-size: 14px;
+            }
+
+            .box-section {
+                padding: 10px;
+            }
+        }
+
+
+
+        /* Section Background Animation */
+        .animated-background-section {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            /* Full viewport height */
+            overflow: hidden;
+
+        }
+
+        .animated-background-section h1 {
+            color: #07eaed;
+            margin: 0;
+            padding: 10px;
+            font-size: 2.5rem;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        /* Animated Background */
+        .animated-background-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #FF6F61, #FF9A8B, #FFB74D, #FFEB3B, #B9FBC0, #8E24AA, #7C4DFF);
+            background-size: 400% 400%;
+            animation: animateBackground 7s linear infinite;
+            z-index: -1;
+
+            /* Ensure it's behind the content */
+        }
+
+        /* Keyframes for background animation */
+        @keyframes animateBackground {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        /* Card Container */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            /* Space between the cards */
+            flex-wrap: wrap;
+            /* Wrap cards on smaller screens */
+            padding: 20px;
+        }
+
+        /* Card Styles */
+        .card {
+            perspective: 1000px;
+            position: relative;
+            width: 45vw;
+            /* Responsive width */
+            height: 45vw;
+            /* Maintain a square aspect ratio */
+            max-width: 300px;
+            /* Maximum width */
+            max-height: 300px;
+            /* Maximum height */
+            margin: 10px;
+            /* Space around the card */
+        }
+
+        /* Card Inner Container */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Card Front and Back Styles */
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Front Side Styles */
+        .card-front {
+            background-color: transparent;
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Back Side Styles */
+        .card-back {
+            background: #333;
+            /* Dark background for text side */
+            color: white;
+            transform: rotateY(180deg);
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .card {
+                width: 90vw;
+                /* Increase width on smaller screens */
+                height: 90vw;
+                /* Maintain square aspect ratio */
+            }
+        }
+
+
+
+        .color-picker-game {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .color-info {
+            margin-bottom: 20px;
+        }
+
+        .color-info p {
+            font-size: 1.5rem;
+            color: #555;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .color-option {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.3s, border 0.3s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.05);
+        }
+
+        .color-option.selected {
+            border: 2px solid #000;
+        }
+
+        #result {
+            margin: 20px;
+            font-size: 1.2rem;
+        }
+
+        #next {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        #next:hover {
+            background: #0056b3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .color-option {
+                width: 80px;
+                height: 80px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #result {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .color-option {
+                width: 60px;
+                height: 60px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            #result {
+                font-size: 0.9rem;
+            }
+        }
+
+      
+
+      
+
+       
+
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    color: #fff;
+    padding: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-logo {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.footer-links, .footer-social {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.footer-links li, .footer-social a {
+    margin: 0 15px;
+}
+
+.footer-links a, .footer-social a {
+    color: #fff;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: #36d7e0;
+}
+
+/* Footer Social Icons */
+.footer-social {
+    margin-bottom: 20px;
+}
+
+.social-icon {
+    font-size: 2rem;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+    color: #1a23f2;
+}
+
+/* Footer Copy */
+.footer-copy {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* 3D Animation */
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+    filter: blur(8px);
+    transform: translateZ(-1px);
+    z-index: 0;
+    animation: rotate-bg 7s linear infinite;
+}
+
+@keyframes rotate-bg {
+    0% {
+        transform: translateZ(-1px) rotateY(0deg);
+    }
+    100% {
+        transform: translateZ(-1px) rotateY(360deg);
+    }
+}
+
+
+
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+                </div>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+
+
+    <div class="content">
+        <div class="text-content">
+            <h1>Welcome to Our High-Tech World</h1>
+            <p> <i> <b><u>Himal Shahi Thakuri </u></b> is a skilled Python and HTML/CSS expert, with a growing interest
+                    in machine
+                    learning. Currently studying at Birendra Multiple Campus, he possesses strong leadership abilities
+                    and exceptional skills in various areas. His technical expertise and commitment to learning make him
+                    a versatile and promising professional in the tech field......  </i></p>
+                    <p> <b>NOTE : <u>This all pictures are AI Generate</u></b></p>
+            <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr"
+                class="cta-button"> <b>FOLLOW US</b></a>
+        </div>
+        <div class="image-gallery">
+            <div class="image-container">
+                <img src="./assets/himal shahi thakuri.png" alt="Tech Image 1">
+                <div class="image-text">Innovative Solutions</div>
+            </div>
+            <div class="image-container">
+                <img src="./assets/download.png" alt="Tech Image 2">
+                <div class="image-text">Advanced Technology</div>
+            </div>
+            <div class="image-container">
+                <img src="./assets/A8lIJ5LR8GvSAAAAAElFTkSuQmCC.png" alt="Tech Image 3">
+                <div class="image-text">Future-Ready Systems</div>
+            </div>
+            <div class="image-container">
+                <img src="./assets/RgJg4yBbkAGQiPjzvwBaLjfem+8H0QAAAABJRU5ErkJggg==.png" alt="Tech Image 4">
+                <div class="image-text">Smart Integrations</div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <section class="box-section">
+
+        <div class="box" data-skill="90">
+            <img src="./assets/html.jpg" alt="HTML" class="box-img">
+            <div class="box-text">HTML</div>
+            <div class="skill-level">
+                <svg class="circle" width="100" height="100">
+                    <circle class="background" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="percentage">95%</div>
+            </div>
+        </div>
+        <div class="box" data-skill="75">
+            <img src="./assets/css.jpg" alt="CSS" class="box-img">
+            <div class="box-text">CSS</div>
+            <div class="skill-level">
+                <svg class="circle" width="100" height="100">
+                    <circle class="background" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="percentage">95%</div>
+            </div>
+        </div>
+        <div class="box" data-skill="85">
+            <img src="./assets/js.jpg" alt="JavaScript" class="box-img">
+            <div class="box-text">JavaScript</div>
+            <div class="skill-level">
+                <svg class="circle" width="100" height="100">
+                    <circle class="background" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="percentage">85%</div>
+            </div>
+        </div>
+        <div class="box" data-skill="80">
+            <img src="./assets/python.jpg" alt="Python" class="box-img">
+            <div class="box-text">Python</div>
+            <div class="skill-level">
+                <svg class="circle" width="100" height="100">
+                    <circle class="background" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="percentage">80%</div>
+            </div>
+        </div>
+        <div class="box" data-skill="5">
+            <img src="./assets/ml.jpg" alt="React" class="box-img">
+            <div class="box-text">Machine Learning</div>
+            <div class="skill-level">
+                <svg class="circle" width="100" height="100">
+                    <circle class="background" cx="50" cy="50" r="45"></circle>
+                    <circle class="progress" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="percentage">5%</div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+    <section class="animated-background-section">
+        <br><br>
+        <div class="card-container">
+            <H1>QUOTES</H1>
+
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="./assets/HO.png" alt="Image">
+                    </div>
+                    <div class="card-back">
+                        <h2>HIMAL SHAHI THAKURI</h2>
+                        <p>"Every expert was once a beginner; every success story starts with the first step."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="./assets/himal.jpeg" alt="Image">
+                    </div>
+                    <div class="card-back">
+                        <h2>HIMAL SHAHI THAKURI</h2>
+                        <p>"Programming is like a relationship: without effort and dedication, you can't achieve
+                            success."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="color-picker-game">
+        <h1>Color Picker Game</h1>
+        <div class="color-info">
+            <p id="color-name">HIMAL</p>
+        </div>
+        <div class="color-options">
+            <!-- Color options will be generated here by JavaScript -->
+        </div>
+        <p id="result"></p>
+        <button id="next">Next Color</button>
+    </section>
+
+  
+
+
+
+
+   
+
+   
+
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+            </div>
+            <ul class="footer-links">
+                <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+                <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a></li> 
+                <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+            </ul>
+            <div class="footer-social">
+               
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        document.querySelectorAll('.box').forEach(box => {
+            const skillLevel = box.getAttribute('data-skill');
+            const progress = box.querySelector('.progress');
+            const percentageText = box.querySelector('.percentage');
+
+            // Set the stroke-dashoffset to create the circle animation effect
+            const radius = 45; // Radius of the circle
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (skillLevel / 100) * circumference;
+
+            progress.style.strokeDashoffset = offset;
+            percentageText.textContent = `${skillLevel}%`;
+        });
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const colorOptionsContainer = document.querySelector('.color-options');
+            const colorNameElement = document.getElementById('color-name');
+            const resultElement = document.getElementById('result');
+            const nextButton = document.getElementById('next');
+
+            const colors = [
+                { code: '#FF0000' }, // Red
+                { code: '#00FF00' }, // Green
+                { code: '#0000FF' }, // Blue
+                { code: '#FFFF00' }, // Yellow
+                { code: '#00FFFF' }, // Cyan
+                { code: '#FF00FF' }  // Magenta
+            ];
+
+            let currentColor;
+
+            function getRandomColor() {
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            function loadColor() {
+                currentColor = getRandomColor();
+                colorNameElement.textContent = `#${currentColor.code.slice(1)}`;
+
+                colorOptionsContainer.innerHTML = '';
+                const options = [...colors];
+                options.sort(() => Math.random() - 0.5);
+
+                options.forEach(color => {
+                    const div = document.createElement('div');
+                    div.classList.add('color-option');
+                    div.style.backgroundColor = color.code;
+                    div.dataset.colorCode = color.code;
+                    colorOptionsContainer.appendChild(div);
+                });
+            }
+
+            function checkColorSelection(event) {
+                if (event.target.classList.contains('color-option')) {
+                    const selectedColor = event.target.dataset.colorCode;
+                    if (selectedColor === currentColor.code) {
+                        resultElement.textContent = 'Correct!';
+                        resultElement.style.color = 'green';
+                    } else {
+                        resultElement.textContent = 'Try Again!';
+                        resultElement.style.color = 'red';
+                    }
+                    document.querySelectorAll('.color-option').forEach(option => {
+                        option.classList.add('selected');
+                    });
+                }
+            }
+
+            nextButton.addEventListener('click', loadColor);
+            colorOptionsContainer.addEventListener('click', checkColorSelection);
+
+            loadColor(); // Initialize game on load
+        });
+
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

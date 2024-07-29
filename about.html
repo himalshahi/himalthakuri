@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="./assets/IMG_6681.jpeg" type="image/x-icon"
+    style="width: 10px;height: 10px; border: radius 50%;">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #1e99ca;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo:hover {
+            transform: rotate(360deg);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+          
+        }
+
+        .nav-links li {
+            margin-left: 1rem;
+         
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            color: rgb(17, 239, 198);
+
+        }
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #333;
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: static;
+                background-color: #444;
+                display: none;
+                opacity: 1;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .dropdown-content.show {
+                display: block;
+            }
+
+            .dropdown-content a {
+                color: white;
+                padding-left: 2rem;
+            }
+
+            .dropdown>a::after {
+                content: ' ▼';
+                font-size: 0.8em;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .content {
+            padding: 20px;
+            height: 2000px;
+        }
+
+
+
+
+
+        .about-us-container {
+            text-align: center;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: darkred;
+            margin-bottom: 20px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .feature {
+            background: #f8f8f8;
+            border: 2px solid darkred;
+            border-radius: 10px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .feature i {
+            font-size: 3em;
+            color: darkred;
+            margin-bottom: 10px;
+        }
+
+        .feature h3 {
+            font-size: 1.5em;
+            color: darkred;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            font-size: 1em;
+            color: #333;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: darkred;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: crimson;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .feature {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .feature i {
+                font-size: 2.5em;
+            }
+
+            .feature h3 {
+                font-size: 1.2em;
+            }
+
+            .feature p {
+                font-size: 0.9em;
+            }
+
+            .btn {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: translateZ(-1px) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateZ(-1px) rotateY(360deg);
+            }
+        }
+
+
+
+
+
+
+
+        .iq-test {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.question i {
+    font-size: 2em;
+    color: darkred;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.question-content {
+    max-width: 100%;
+}
+
+.question-content h3 {
+    font-size: 1.2em;
+    color: darkred;
+    margin-bottom: 10px;
+}
+
+.question-content pre {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-x: auto;
+    margin-bottom: 10px;
+}
+
+.question-content p {
+    font-size: 1em;
+    color: #333;
+}
+
+.options {
+    margin-top: 10px;
+}
+
+.options button {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+    font-size: 1em;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.options button:hover {
+    background-color: #23c6df;
+}
+
+.options button:disabled {
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+.feedback {
+    margin-top: 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .iq-test {
+        padding: 10px;
+    }
+
+    .question {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .question i {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .question-content h3 {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .question i {
+        font-size: 1.2em;
+    }
+
+    .question-content h3 {
+        font-size: 0.9em;
+    }
+
+    .question-content p {
+        font-size: 0.9em;
+    }
+}
+
+
+
+
+
+
+/* General styles */
+.calendar-container {
+    width: 100%;
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: linear-gradient(145deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header button {
+    background-color: #0056b3;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header button:hover {
+    background-color: #004494;
+    transform: scale(1.05);
+}
+
+/* Day Headers */
+.day-name {
+    width: calc(100% / 7);
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    background: #e0e0e0;
+    border-bottom: 1px solid #ccc;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    color: #555;
+}
+
+/* Day Cells */
+.days {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ddd;
+    border-top: none;
+    position: relative;
+}
+
+.day {
+    width: calc(100% / 7);
+    box-sizing: border-box;
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-top: none;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    position: relative;
+    cursor: pointer;
+}
+
+.day:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.day.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.day.today {
+    background-color: #ffeb3b;
+    font-weight: bold;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.5);
+}
+
+/* Icons in day cells */
+.icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 1.2em;
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+.icon:hover {
+    color: #0056b3;
+}
+
+/* Cake and Balloons Alert Styles */
+.alert-popup {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: white;
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1000;
+}
+
+.alert-popup i {
+    font-size: 3em;
+    color: #007bff;
+}
+
+.alert-popup h2 {
+    margin: 10px 0;
+    color: #007bff;
+}
+
+.alert-popup button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.alert-popup button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header button {
+        font-size: 1.2em;
+        padding: 6px;
+    }
+
+    .day {
+        width: calc(100% / 7);
+    }
+
+    .day-name {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 10px;
+    }
+
+    .header button {
+        font-size: 1em;
+        padding: 4px;
+    }
+
+    .day {
+        width: calc(100% / 7 - 2px); /* Adjust width to fit well */
+        font-size: 0.9em;
+    }
+
+    .day-name {
+        font-size: 0.9em;
+    }
+}
+
+
+
+
+
+
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.gallery-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    animation: fadeIn 1s ease-out;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.7);
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: .5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.gallery-item:hover .overlay {
+    height: 100%;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+#lightbox-caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+.close-lightbox {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close-lightbox:hover,
+.close-lightbox:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@media only screen and (max-width: 700px){
+    .lightbox-content {
+        width: 100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: #fff;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-links,
+        .footer-social {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links li,
+        .footer-social a {
+            margin: 0 15px;
+        }
+
+        .footer-links a,
+        .footer-social a {
+            color: #fff;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover,
+        .footer-social a:hover {
+            color: #1a23f2;
+        }
+
+        /* Footer Social Icons */
+        .footer-social {
+            margin-bottom: 20px;
+        }
+
+        .social-icon {
+            font-size: 2rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+            color: #1a23f2;
+        }
+
+        /* Footer Copy */
+        .footer-copy {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* 3D Animation */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+            filter: blur(8px);
+            transform: translateZ(-1px);
+            z-index: 0;
+            animation: rotate-bg 30s linear infinite;
+        }
+
+        @keyframes rotate-bg {
+            0% {
+                transform: translateZ(-1px) rotateY(0deg);
+            }
+
+            100% {
+                transform: translateZ(-1px) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="logo" id="logo">Himal Shahi Thakuri</div>
+        <ul class="nav-links">
+            <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-user"></i> About</a></li>
+
+            <li><a href="team.html"><i class="fas fa-users"></i> Team</a></li>
+            <li class="dropdown">
+                <a href="Service.html" class="dropdown-toggle">Services</a>
+
+                <div class="dropdown-content">
+                    <a href="language.html">Langauge</a>
+                    <a href="project.html">Projects</a>
+                    <a href="dictionary.html">Dictionary</a>
+                    <a href="cheat.html">Cheat</a>
+                    <a href="question.html">Question</a>
+            </li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+    </nav>
+
+
+
+
+    <div class="about-us-container">
+        <h2 class="section-title">About Us</h2>
+        <p>Welcome to our website! We offer free resources for everyone, including projects and questions related to
+            HTML, CSS, Python, and JavaScript. Your go-to hub for free and high-quality
+            resources tailored for both novice and seasoned developers. Our mission is to empower learners and
+            professionals alike by providing a comprehensive range of tools and content designed to enhance your
+            programming skills. Here’s what you can explore:</p>
+        </p>
+        <br>
+        <br>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-hands-helping"></i> <i class="fas fa-hands-helping"></i>
+                <h3>Friend-ship</h3>
+                <p>Join us in building lasting friendships and enjoying unforgettable moments together.</p>
+                <a href="team.html" class="btn">Learn More</a>
+            </div>
+            <div class="feature">
+                <i class="fas fa-language"></i>
+                <h3>Programming language</h3>
+                <p>Find "hello world" in 30 differnet langauge.</p>
+                <a href="language.html" class="btn">Explore</a>
+            </div>
+            <div class="feature">
+                <i class="fas fa-tasks"></i>
+                <h3>Mini Projects</h3>
+                <p>Explore Html & Css projects.......</p>
+                <a href="project.html" class="btn">Discover</a>
+            </div>
+            <div class="feature">
+                <i class="fas fa-comment-dots"></i>
+
+                <h3>Cheat Sheet</h3>
+                <p>..................................</p>
+                <a href="cheat.html" class="btn">Get Started</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <h2 class="section-title">Advanced Programming IQ Test</h2>
+    <p>Challenge yourself with these advanced-level programming questions. Test your problem-solving skills and see how you stack up!</p>
+    <div class="iq-test">
+        <div class="question">
+            <i class="fas fa-code"></i>
+            <div class="question-content">
+                <h3>1. What is the output of the following Python code?</h3>
+                <pre><code>def func(x):
+    return x * 2
+
+print(func(5) + func(10))</code></pre>
+                <div class="options">
+                    <button data-correct="false">A. 15</button>
+                    <button data-correct="true">B. 20</button>
+                    <button data-correct="false">C. 25</button>
+                    <button data-correct="false">D. 30</button>
+                </div>
+                <p class="feedback"></p>
+            </div>
+        </div>
+        <div class="question">
+            <i class="fas fa-sort-numeric-down"></i>
+            <div class="question-content">
+                <h3>2. Which of the following algorithms is the most efficient for sorting large datasets?</h3>
+                <div class="options">
+                    <button data-correct="false">A. Bubble Sort</button>
+                    <button data-correct="true">B. Quick Sort</button>
+                    <button data-correct="false">C. Insertion Sort</button>
+                    <button data-correct="false">D. Selection Sort</button>
+                </div>
+                <p class="feedback"></p>
+            </div>
+        </div>
+        <div class="question">
+            <i class="fas fa-database"></i>
+            <div class="question-content">
+                <h3>3. How does a hash table achieve constant time complexity for search operations?</h3>
+                <div class="options">
+                    <button data-correct="false">A. By using a binary tree</button>
+                    <button data-correct="true">B. By hashing keys to indices</button>
+                    <button data-correct="false">C. By sorting elements</button>
+                    <button data-correct="false">D. By using linked lists</button>
+                </div>
+                <p class="feedback"></p>
+            </div>
+        </div>
+        <div class="question">
+            <i class="fas fa-clock"></i>
+            <div class="question-content">
+                <h3>4. What is the time complexity of accessing an element in a balanced binary search tree?</h3>
+                <div class="options">
+                    <button data-correct="false">A. O(1)</button>
+                    <button data-correct="true">B. O(log n)</button>
+                    <button data-correct="false">C. O(n)</button>
+                    <button data-correct="false">D. O(n log n)</button>
+                </div>
+                <p class="feedback"></p>
+            </div>
+        </div>
+        <div class="question">
+            <i class="fas fa-question-circle"></i>
+            <div class="question-content">
+                <h3>5. In JavaScript, what is the result of the following expression: `[] + {}`?</h3>
+                <div class="options">
+                    <button data-correct="false">A. `"[object Object]"`</button>
+                    <button data-correct="true">B. `"[]"`</button>
+                    <button data-correct="false">C. `"[object Object]"`</button>
+                    <button data-correct="false">D. `"{}"`</button>
+                </div>
+                <p class="feedback"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="calendar-container">
+    <div id="calendar"></div>
+    <div id="alert-popup" class="alert-popup">
+        <i class="fas fa-birthday-cake"></i>
+        <h2>Happy Birthday Himal!</h2>
+        <p>🎉🎈 Wishing you a wonderful day filled with joy and celebration! 🎈🎉</p>
+        <button id="close-popup">Close</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="gallery-container">
+    <h2 class="gallery-title">Certificate</h2>
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="./assets/img1.jpeg" alt="Image 1">
+            <div class="overlay">Image 1 Description</div>
+        </div>
+        <div class="gallery-item">
+            <img src="./assets/img2.jpeg" alt="Image 2">
+            <div class="overlay">Image 2 Description</div>
+        </div>
+        <div class="gallery-item">
+            <img src="./assets/img3.jpeg" alt="Image 3">
+            <div class="overlay">Image 3 Description</div>
+        </div>
+        <div class="gallery-item">
+            <img src="./assets/himal cerificate.jpg" alt="Image 3">
+            <div class="overlay">Image 4 Description</div>
+        </div>
+        <div class="gallery-item">
+            <img src="./assets/j.jpeg" alt="Image 3">
+            <div class="overlay">Image 5 Description</div>
+        </div>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+    <div id="lightbox-caption"></div>
+</div>
+
+
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-logo">
+            <i class="fas fa-cogs"></i> <!-- Example Logo Icon -->
+        </div>
+        <ul class="footer-links">
+            <li><a href="home.html"><i class="fas fa-home"></i></a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i></a></li>
+            <li><a href="https://youtube.com/@techwithhimal?si=WOXhy7awduy11uNZ"><i class="fab fa-youtube"></i></a></li> 
+            <li><a href="contact.html"><i class="fas fa-phone-alt"></i></a></li>
+        </ul>
+        <div class="footer-social">
+           
+            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com/everest_himal?igsh=MWEzYnUwZDExNnZkeg%3D%3D&utm_source=qr" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="footer-copy">
+            <p>&copy; Himal Shahi Thakuri. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        const logo = document.getElementById('logo');
+        const animatedBg = document.getElementById('animated-bg');
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.querySelector('.nav-links');
+        const navbar = document.getElementById('navbar');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdownContent = document.querySelector('.dropdown-content');
+
+        logo.addEventListener('click', () => {
+            animatedBg.style.opacity = animatedBg.style.opacity === '1' ? '0' : '1';
+        });
+
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('show');
+        });
+
+        dropdownToggle.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                navLinks.classList.remove('show');
+                dropdownContent.classList.remove('show');
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Disable all buttons after answering question ho hai 
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const questions = document.querySelectorAll('.question');
+        let correctAnswersCount = 0;
+        const totalQuestions = questions.length;
+
+        questions.forEach(question => {
+            const buttons = question.querySelectorAll('.options button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    const feedback = question.querySelector('.feedback');
+                    
+                    if (isCorrect) {
+                        feedback.textContent = 'Correct! Well done.';
+                        feedback.style.color = 'green';
+                        correctAnswersCount++;
+                    } else {
+                        feedback.textContent = 'Incorrect. Please try again.';
+                        feedback.style.color = 'red';
+                    }
+                    
+                    // Disable all buttons after answering
+                    buttons.forEach(btn => btn.disabled = true);
+
+                    // Check if all questions are answered correctly
+                    if (correctAnswersCount === totalQuestions) {
+                        setTimeout(() => {
+                            alert('Congratulations! You are a genius!');
+                        }, 500); // Delay to ensure all feedback is displayed
+                    }
+                });
+            });
+        });
+    });
+
+
+
+    // calander ho hai 
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarContainer = document.getElementById('calendar');
+        const alertPopup = document.getElementById('alert-popup');
+        const closePopup = document.getElementById('close-popup');
+
+        function generateCalendar(year, month) {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const endDay = lastDay.getDate();
+            let daysHtml = '';
+
+            // Header
+            const header = `
+                <div class="header">
+                    <button id="prev-month">&lt;</button>
+                    <div>${firstDay.toLocaleString('default', { month: 'long' })} ${year}</div>
+                    <button id="next-month">&gt;</button>
+                </div>
+            `;
+            calendarContainer.innerHTML = header;
+
+            // Day Headers
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            let daysHeader = '<div class="days">';
+            dayNames.forEach(day => {
+                daysHeader += `<div class="day-name">${day}</div>`;
+            });
+            daysHeader += '</div>';
+            calendarContainer.innerHTML += daysHeader;
+
+            // Days
+            let days = '<div class="days">';
+            for (let i = 0; i < startDay; i++) {
+                days += '<div class="day disabled"></div>';
+            }
+            for (let i = 1; i <= endDay; i++) {
+                let className = 'day';
+                if (i === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+                    className += ' today';
+                }
+                let iconHtml = ''; // Add logic for icons here
+                // Example: Adding a birthday icon on the 22nd of October
+                if (i === 22 && month === 9) { // October is month 9 (0-based index)
+                    iconHtml = '<i class="fas fa-birthday-cake icon"></i>';
+                }
+                days += `<div class="${className}" data-day="${i}">${i}${iconHtml}</div>`;
+            }
+            days += '</div>';
+            calendarContainer.innerHTML += days;
+
+            // Navigation Event Listeners
+            document.getElementById('prev-month').addEventListener('click', function() {
+                const prevMonth = new Date(year, month - 1);
+                generateCalendar(prevMonth.getFullYear(), prevMonth.getMonth());
+            });
+            document.getElementById('next-month').addEventListener('click', function() {
+                const nextMonth = new Date(year, month + 1);
+                generateCalendar(nextMonth.getFullYear(), nextMonth.getMonth());
+            });
+
+            // Click Event Listener for Day Cells
+            document.querySelectorAll('.day').forEach(day => {
+                day.addEventListener('click', function() {
+                    if (this.dataset.day == 22 && month === 9) { // October is month 9 (0-based index)
+                        alertPopup.style.display = 'block';
+                    }
+                });
+            });
+
+            // Close Popup
+            closePopup.addEventListener('click', function() {
+                alertPopup.style.display = 'none';
+            });
+        }
+
+        const today = new Date();
+        generateCalendar(today.getFullYear(), today.getMonth());
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const gallery = document.querySelector('.gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const closeLightbox = document.querySelector('.close-lightbox');
+
+    gallery.addEventListener('click', function(e) {
+        if (e.target.tagName === 'IMG') {
+            lightbox.style.display = 'block';
+            lightboxImg.src = e.target.src;
+            lightboxCaption.innerHTML = e.target.nextElementSibling.innerHTML;
+        }
+    });
+
+    closeLightbox.addEventListener('click', function() {
+        lightbox.style.display = 'none';
+    });
+
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+        }
+    });
+});
+
+
+
+
+
+    </script>
+</body>
+
+</html>
